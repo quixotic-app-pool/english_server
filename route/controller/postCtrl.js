@@ -5,7 +5,7 @@
  * @Project: one_server
  * @Filename: questionCtrl.js
  * @Last modified by:   mymac
- * @Last modified time: 2018-01-29T17:52:24+08:00
+ * @Last modified time: 2018-01-31T02:51:23+08:00
  */
 
 
@@ -85,7 +85,7 @@ function fetchList (req, res) {
           }
         })
 
-        console.log('docs: ' + JSON.stringify(docs));
+        // console.log('docs: ' + JSON.stringify(docs));
         res.json(docs);
       })
    }
@@ -97,7 +97,7 @@ function fetch (req, res) {
     //lean()是一个坑的解决办法，mongoose返回的object被封装，无法做修改，lean可以解锁
     PostModel.findById(ObjectId(data.post_id)).populate([{path: 'from_user', select: 'nickName avatarUrl gender points position'}, {path: 'reply', populate: {path: 'from_user', select: 'nickName avatarUrl gender points position'}}]).lean().then(function(docs){
       // console.log('data after popluation: ' + JSON.stringify(data));
-      console.log('fetching test: ' + docs);
+      // console.log('fetching test: ' + JSON.stringify(docs))
       if(docs) {
 
         docs.numOfBM = docs.bookmarkedBy.length
@@ -164,6 +164,7 @@ function post (req, res) {
   var now = new Date();
   // now = dateFormat(now, "dddd, mmmm dS, yyyy, h:MM:ss TT")
   var data = req.body.pack;
+  // console.log('checking additional: ' + JSON.stringify(data))
   var postEntity = new PostModel({
     type: data.type,
     value0: data.value0,
@@ -262,6 +263,7 @@ function answer (req, res) {
     value0: Data.value0,
     from_user: Data.from_user_id,
     to_post: Data.post_id,
+    additional: Data.additional,
     createdAt: now
   })
   postEntity.save(function(err, docs1){
