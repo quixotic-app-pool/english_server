@@ -5,7 +5,7 @@
  * @Project: one_server
  * @Filename: questionCtrl.js
  * @Last modified by:   mymac
- * @Last modified time: 2018-01-31T02:51:23+08:00
+ * @Last modified time: 2018-01-31T14:46:25+08:00
  */
 
 
@@ -74,7 +74,7 @@ function fetchList (req, res) {
       // console.log('type？ : ' + type);
       UserModel.findById(ObjectId(user_id)).populate({path: type, options: option, populate: {path: 'from_user', select: 'nickName avatarUrl gender points position'}}).lean().then(function(data){
         // console.log('inside query');
-        console.log(type+ ': ' + docs[type]);
+        // console.log(type+ ': ' + data[type]);
         var docs = data[type]
         docs.forEach(function(item){
           if(item.type == 'reply') {
